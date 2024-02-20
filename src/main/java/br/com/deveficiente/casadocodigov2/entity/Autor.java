@@ -1,0 +1,36 @@
+package br.com.deveficiente.casadocodigov2.entity;
+
+import br.com.deveficiente.casadocodigov2.model.CadastroAutorRequest;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SourceType;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
+
+@Getter
+@Entity
+@Table(name = "autor")
+public class Autor {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String nome;
+    private String email;
+    private String descricao;
+    @CreationTimestamp(source = SourceType.DB)
+    private LocalDateTime dateCreated;
+    @UpdateTimestamp(source = SourceType.DB)
+    private LocalDateTime lastUpdated;
+
+    public Autor() {
+    }
+    public Autor(CadastroAutorRequest autorForm) {
+        this.nome = autorForm.nome();
+        this.email = autorForm.email();
+        this.descricao = autorForm.descricao();
+    }
+}
