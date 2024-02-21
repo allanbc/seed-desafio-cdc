@@ -1,9 +1,8 @@
 package br.com.deveficiente.casadocodigov2.entity;
 
-import br.com.deveficiente.casadocodigov2.model.CadastroAutorRequest;
+import br.com.deveficiente.casadocodigov2.model.Autor.CadastroAutorRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SourceType;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -12,7 +11,6 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
-@Table(name = "autor")
 public class Autor {
 
     @Id
