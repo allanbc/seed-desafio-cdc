@@ -29,7 +29,7 @@ public class CasaDoCogigoExceptionHandler {
 	private static final Logger LOG = getLogger(CasaDoCogigoExceptionHandler.class);
 
 	@ExceptionHandler(CasaDoCodigoException.class)
-	public ResponseEntity<ErrorResponse> handlePortalSisException(CasaDoCodigoException exception) {
+	public ResponseEntity<ErrorResponse> handleCasaDoCodigoException(CasaDoCodigoException exception) {
 		var body = ErrorResponse.builder()
 						.httpStatusCode(exception.getHttpStatus().value())
 						.errorCode(exception.getErrorCode())
