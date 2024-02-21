@@ -2,7 +2,7 @@ package br.com.deveficiente.casadocodigov2.service;
 
 import br.com.deveficiente.casadocodigov2.entity.Autor;
 import br.com.deveficiente.casadocodigov2.exception.AutorCadastradoException;
-import br.com.deveficiente.casadocodigov2.model.CadastroAutorRequest;
+import br.com.deveficiente.casadocodigov2.model.Autor.CadastroAutorRequest;
 import br.com.deveficiente.casadocodigov2.repository.AutorRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
