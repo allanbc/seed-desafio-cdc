@@ -2,6 +2,8 @@ package br.com.deveficiente.casadocodigov2.service;
 
 import br.com.deveficiente.casadocodigov2.entity.Autor;
 import br.com.deveficiente.casadocodigov2.exception.AutorCadastradoException;
+import br.com.deveficiente.casadocodigov2.exception.AutorNotFoundException;
+import br.com.deveficiente.casadocodigov2.model.AutorResponse;
 import br.com.deveficiente.casadocodigov2.model.CadastroAutorRequest;
 import br.com.deveficiente.casadocodigov2.repository.AutorRepository;
 import org.slf4j.Logger;
@@ -20,12 +22,11 @@ public class AutorService {
 
     public Autor create(CadastroAutorRequest autorForm) {
         LOG.info("Cadastrando autor: {}", autorForm);
-        var verificaCadastro = autorRepository.existsByNomeOrEmail(autorForm.nome(), autorForm.email());
+        var verificaCadastro = autorRepository.existsByEmail(autorForm.email());
         if(verificaCadastro) {
-            throw new AutorCadastradoException("Autor já está cadastrado!");
+            throw new AutorCadastradoException("Autor já está cadastrado para o e-mail informado!");
         }
         return autorRepository.save(new Autor(autorForm));
     }
-
 
 }
