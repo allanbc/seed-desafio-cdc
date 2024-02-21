@@ -8,5 +8,4 @@ import java.util.Optional;
 
 @Repository
 public interface AutorRepository extends JpaRepository<Autor, Long> {
-    boolean existsByEmail(String email);
 }

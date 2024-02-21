@@ -20,10 +20,6 @@ public class AutorService {
 
     public Autor create(CadastroAutorRequest request) {
         LOG.info("Cadastrando autor: {}", request);
-        var verificaCadastro = autorRepository.existsByEmail(request.email());
-        if(verificaCadastro) {
-            throw new AutorCadastradoException("Autor já está cadastrado para o e-mail informado!");
-        }
         return autorRepository.save(new Autor(request));
     }
 

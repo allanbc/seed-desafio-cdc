@@ -25,12 +25,6 @@ public class CategoriaService {
 
     public Categoria create(CadastroCategoriaRequest request) {
         LOG.info("Cadastrando categoria: {}", request);
-        var verificaCadastro = categoriaRepository.existsByNomeIgnoreCase(request.nome());
-
-        if(verificaCadastro) {
-            throw new CategoriaCadastradaException("Categoria já está cadastrada!");
-        }
-
         return categoriaRepository.save(new Categoria(request));
     }
 }
