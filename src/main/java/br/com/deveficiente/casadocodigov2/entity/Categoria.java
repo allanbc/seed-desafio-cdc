@@ -1,7 +1,6 @@
 package br.com.deveficiente.casadocodigov2.entity;
 
 import br.com.deveficiente.casadocodigov2.model.Categoria.CadastroCategoriaRequest;
-import br.com.deveficiente.casadocodigov2.model.Categoria.CategoriaResponse;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.ToString;
@@ -23,6 +22,5 @@ public class Categoria {
     public Categoria(CadastroCategoriaRequest request) {
         this.nome = request.nome();
     }
-    public Categoria(Categoria categoria) {
-    }
+
 }
