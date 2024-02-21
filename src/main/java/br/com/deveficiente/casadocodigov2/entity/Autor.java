@@ -21,9 +21,9 @@ public class Autor {
     private String nome;
     private String email;
     private String descricao;
-    @CreationTimestamp(source = SourceType.DB)
+    @CreationTimestamp(source = SourceType.VM)
     private LocalDateTime dateCreated;
-    @UpdateTimestamp(source = SourceType.DB)
+    @UpdateTimestamp(source = SourceType.VM)
     private LocalDateTime lastUpdated;
 
     public Autor() {
