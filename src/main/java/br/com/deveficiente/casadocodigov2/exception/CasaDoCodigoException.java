@@ -29,7 +29,7 @@ public class CasaDoCodigoException extends RuntimeException {
 
     @Override
     public String toString() {
-        return "AutorException{" +
+        return "CasaDoCodigoException{" +
                 "httpStatus=" + httpStatus +
                 ", errorCode='" + errorCode + '\'' +
                 ", errorDescription='" + getErrorDescription() + '\'' +
