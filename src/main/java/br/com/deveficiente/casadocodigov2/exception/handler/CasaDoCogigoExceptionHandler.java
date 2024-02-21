@@ -5,45 +5,49 @@ import br.com.deveficiente.casadocodigov2.model.ErrorResponse;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.support.WebExchangeBindException;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * Exception handler para erros que acontecem na camada do controller.
  */
-@ControllerAdvice
+@RestControllerAdvice
 public class CasaDoCogigoExceptionHandler {
 
 	private static final Logger LOG = getLogger(CasaDoCogigoExceptionHandler.class);
 
+	@Autowired
+	private final HandleValidationRetrieveFields retrieveFields;
+
+	@Autowired
+	private final HandleInvalidFormatRetrieveFields invalidFormatRetrieveFields;
+
+	public CasaDoCogigoExceptionHandler(HandleValidationRetrieveFields retrieveFields, HandleInvalidFormatRetrieveFields invalidFormatRetrieveFields) {
+		this.retrieveFields = retrieveFields;
+		this.invalidFormatRetrieveFields = invalidFormatRetrieveFields;
+	}
+
 	@ExceptionHandler(CasaDoCodigoException.class)
 	public ResponseEntity<ErrorResponse> handleCasaDoCodigoException(CasaDoCodigoException exception) {
-		var body = ErrorResponse.builder()
+		messageLog(exception);
+		return ResponseEntity.status(exception.getHttpStatus())
+				.contentType(MediaType.APPLICATION_JSON)
+				.body(ErrorResponse.builder()
 						.httpStatusCode(exception.getHttpStatus().value())
 						.errorCode(exception.getErrorCode())
 						.message(exception.getErrorDescription())
 						.fields(exception.getFields())
-						.build();
-
-		if (LOG.isWarnEnabled()) {
-			LOG.warn("Ocorreu a seguinte exceção: {}", exception.toString());
-		}
-
-		return ResponseEntity.status(exception.getHttpStatus())
-				.contentType(MediaType.APPLICATION_JSON)
-				.body(body);
+						.build());
 	}
 
 	/**
@@ -55,16 +59,10 @@ public class CasaDoCogigoExceptionHandler {
 	@ExceptionHandler(InvalidFormatException.class)
 	public ResponseEntity<ErrorResponse> handleInvalidFormatException(InvalidFormatException exception) {
 		var fields = new HashMap<String, String>();
-		var validValues = Arrays.toString(exception.getTargetType().getEnumConstants());
 
-		exception.getPath()
-				.forEach(e -> fields.put(e.getFieldName(), "valores válidos: " + validValues));
+		String fieldsMessage = invalidFormatRetrieveFields.returnFiledsHandleInvalid(exception, fields);
 
-		String fieldsMessage = String.join(", ", fields.keySet());
-
-		if (LOG.isWarnEnabled()) {
-			LOG.warn("Ocorreu uma exceção de validação: {}", exception.toString());
-		}
+		messageLog(exception);
 
 		return ResponseEntity.unprocessableEntity()
 				.contentType(MediaType.APPLICATION_JSON)
@@ -78,23 +76,11 @@ public class CasaDoCogigoExceptionHandler {
 
 	@ExceptionHandler({BindException.class, WebExchangeBindException.class, ConstraintViolationException.class})
 	public ResponseEntity<ErrorResponse> handleValidationException(Throwable exception) {
-		Map<String, String> fields = new HashMap<>();
+		var fields = new HashMap<String, String>();
 
-		if (exception instanceof BindingResult result) {
-			result
-				.getFieldErrors()
-				.forEach(error -> fields.put(error.getField(), error.getDefaultMessage()));
-		} else if (exception instanceof ConstraintViolationException violation) {
-			violation
-				.getConstraintViolations()
-				.forEach(error -> fields.put(error.getPropertyPath().toString(), error.getMessage()));
-	}
+		String fieldsMessage = retrieveFields.returnFieldsHandleValidation(exception, fields);
 
-		String fieldsMessage = String.join(", ", fields.keySet());
-
-		if (LOG.isWarnEnabled()) {
-			LOG.warn("Ocorreu uma exceção de validação: {}", exception.toString());
-		}
+		messageLog(exception);
 
 		return ResponseEntity.unprocessableEntity()
 				.contentType(MediaType.APPLICATION_JSON)
@@ -108,19 +94,20 @@ public class CasaDoCogigoExceptionHandler {
 
 	@ExceptionHandler(RuntimeException.class)
 	public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException exception) {
-		var body = ErrorResponse.builder()
-				.httpStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
-				.errorCode("internal_server_error")
-				.message(exception.getMessage())
-				.build();
+		messageLog(exception);
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+				.contentType(MediaType.APPLICATION_JSON)
+				.body(ErrorResponse.builder()
+						.httpStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+						.errorCode("internal_server_error")
+						.message(exception.getMessage())
+						.build());
+	}
 
+	private <T> void messageLog (T exception) {
 		if (LOG.isWarnEnabled()) {
 			LOG.warn("Ocorreu a seguinte exceção: {}", exception.toString());
 		}
-
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-				.contentType(MediaType.APPLICATION_JSON)
-				.body(body);
 	}
 
 }
