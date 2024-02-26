@@ -1,13 +1,16 @@
 package br.com.deveficiente.casadocodigov2.controller;
 
-import br.com.deveficiente.casadocodigov2.model.Autor.AutorResponse;
-import br.com.deveficiente.casadocodigov2.model.Autor.CadastroAutorRequest;
+import br.com.deveficiente.casadocodigov2.model.autor.AutorResponse;
+import br.com.deveficiente.casadocodigov2.model.autor.CadastroAutorRequest;
+import br.com.deveficiente.casadocodigov2.model.livro.LivroResponse;
 import br.com.deveficiente.casadocodigov2.service.AutorService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -24,7 +27,12 @@ public class AutorController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AutorResponse> create(@RequestBody @Valid CadastroAutorRequest request) {
-        LOG.info("Criando uma categoria");
-        return ResponseEntity.ok(AutorResponse.toResponse(autorService.create(request)));
+        LOG.info("Cadastrando um autor");
+        return ResponseEntity.ok(new AutorResponse(autorService.create(request)));
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<AutorResponse> getById(@PathVariable Long id) {
+        LOG.info("Consulta de autor por id: {}", id);
+        return ResponseEntity.ok(autorService.getById(id));
     }
 }
