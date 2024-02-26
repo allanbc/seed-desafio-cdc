@@ -1,8 +1,9 @@
 package br.com.deveficiente.casadocodigov2.service;
 
 import br.com.deveficiente.casadocodigov2.entity.Autor;
-import br.com.deveficiente.casadocodigov2.exception.AutorCadastradoException;
-import br.com.deveficiente.casadocodigov2.model.Autor.CadastroAutorRequest;
+import br.com.deveficiente.casadocodigov2.exception.AutorNotFoundException;
+import br.com.deveficiente.casadocodigov2.model.autor.AutorResponse;
+import br.com.deveficiente.casadocodigov2.model.autor.CadastroAutorRequest;
 import br.com.deveficiente.casadocodigov2.repository.AutorRepository;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
@@ -23,4 +24,17 @@ public class AutorService {
         return autorRepository.save(new Autor(request));
     }
 
+    public AutorResponse getById(Long id) {
+
+        LOG.info("Buscando autor por ID: {}", id);
+        var autor = autorRepository.findById(id)
+                .map(AutorResponse::new)
+                .orElseThrow(() -> {
+                    LOG.warn("Autor não encontrado");
+                    return new AutorNotFoundException(id);
+                });
+
+        LOG.info("Autor encontrado: {}", autor);
+        return autor;
+    }
 }
