@@ -1,14 +1,10 @@
 package br.com.deveficiente.casadocodigov2.service;
 
 import br.com.deveficiente.casadocodigov2.entity.Categoria;
-import br.com.deveficiente.casadocodigov2.exception.CategoriaCadastradaException;
-import br.com.deveficiente.casadocodigov2.model.Categoria.CadastroCategoriaRequest;
-import br.com.deveficiente.casadocodigov2.model.Categoria.CategoriaResponse;
+import br.com.deveficiente.casadocodigov2.model.categoria.CadastroCategoriaRequest;
 import br.com.deveficiente.casadocodigov2.repository.CategoriaRepository;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -24,7 +20,7 @@ public class CategoriaService {
     }
 
     public Categoria create(CadastroCategoriaRequest request) {
-        LOG.info("Cadastrando categoria: {}", request);
+        LOG.info("Cadastrando uma categoria: {}", request);
         return categoriaRepository.save(new Categoria(request));
     }
 }
