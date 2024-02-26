@@ -1,12 +1,9 @@
-package br.com.deveficiente.casadocodigov2.model.Autor;
+package br.com.deveficiente.casadocodigov2.model.autor;
 
 import br.com.deveficiente.casadocodigov2.entity.Autor;
-import br.com.deveficiente.casadocodigov2.entity.Categoria;
 import br.com.deveficiente.casadocodigov2.util.UniqueValue;
 import jakarta.validation.constraints.*;
-import lombok.Builder;
 
-@Builder
 public record CadastroAutorRequest(
         @NotBlank(message = "Nome é obrigatório")
         String nome,

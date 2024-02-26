@@ -1,18 +1,17 @@
-package br.com.deveficiente.casadocodigov2.model.Categoria;
+package br.com.deveficiente.casadocodigov2.model.categoria;
 
-import br.com.deveficiente.casadocodigov2.entity.Autor;
 import br.com.deveficiente.casadocodigov2.entity.Categoria;
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Builder
-public record CategoriaResponse(String nome) {
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
+ public record CategoriaResponse(Long id, String nome) {
     public CategoriaResponse(Categoria categoria) {
-        this(categoria.getNome());
+        this(categoria.getId(), categoria.getNome());
     }
-
-    public static CategoriaResponse toResponse(Categoria categoria) {
-        return CategoriaResponse.builder()
-                .nome(categoria.getNome())
-                .build();
+    public static Categoria toResponse(Categoria categoria) {
+        Categoria categoria1 = new Categoria();
+        categoria1.setId(categoria.getId());
+        categoria1.setNome(categoria.getNome());
+        return categoria1;
     }
 }
