@@ -1,8 +1,8 @@
 package br.com.deveficiente.casadocodigov2.controller;
 
-import br.com.deveficiente.casadocodigov2.entity.Livro;
 import br.com.deveficiente.casadocodigov2.model.autor.AutorResponse;
 import br.com.deveficiente.casadocodigov2.model.livro.CadastroLivroRequest;
+import br.com.deveficiente.casadocodigov2.model.livro.LivroDetalheResponse;
 import br.com.deveficiente.casadocodigov2.model.livro.LivroResponse;
 import br.com.deveficiente.casadocodigov2.service.LivroService;
 import jakarta.validation.Valid;
@@ -34,5 +34,11 @@ public class LivroController {
     public ResponseEntity<List<LivroResponse>> listar() {
         return ResponseEntity.ok(livroService.listar());
     }
+    @GetMapping("/produtos/{id}")
+    public ResponseEntity<LivroDetalheResponse> getByProdutoDetalhe(@PathVariable Long id) {
+        LOG.info("Consulta de autor por id: {}", id);
+        return ResponseEntity.ok(livroService.getByProdutoDetalhe(id));
+    }
+
 
 }
