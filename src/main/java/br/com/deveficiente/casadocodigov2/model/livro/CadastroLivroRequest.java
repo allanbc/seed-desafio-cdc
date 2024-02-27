@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record CadastroLivroRequest(
@@ -31,8 +32,8 @@ public record CadastroLivroRequest(
     @UniqueValue(domainClass = Livro.class, fieldName = "isbn", message = "O Isbn informado já está cadastrado para outro livro!")
     String isbn,
     @Future(message = "A data informada precisa ser maior que a data atual")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT-3")
-    LocalDateTime dataPublicacao,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT-3")
+    LocalDate dataPublicacao,
     @Valid
     @NotNull
     @ExistsId(domainClass = Categoria.class, fieldName = "id")
