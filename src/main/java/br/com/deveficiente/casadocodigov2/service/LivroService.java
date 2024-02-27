@@ -38,7 +38,7 @@ public class LivroService {
         return livroRepository.save(new Livro(autor, categoria, request));
     }
     public List<LivroResponse> listar() {
-        LOG.info("Buscando autores");
+        LOG.info("Buscando livros");
         return livroRepository
                 .findAll()
                 .stream()
