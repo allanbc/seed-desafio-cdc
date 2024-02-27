@@ -3,13 +3,17 @@ package br.com.deveficiente.casadocodigov2.service;
 import br.com.deveficiente.casadocodigov2.entity.Autor;
 import br.com.deveficiente.casadocodigov2.entity.Categoria;
 import br.com.deveficiente.casadocodigov2.entity.Livro;
+import br.com.deveficiente.casadocodigov2.model.autor.AutorResponse;
 import br.com.deveficiente.casadocodigov2.model.livro.CadastroLivroRequest;
+import br.com.deveficiente.casadocodigov2.model.livro.LivroResponse;
 import br.com.deveficiente.casadocodigov2.repository.AutorRepository;
 import br.com.deveficiente.casadocodigov2.repository.CategoriaRepository;
 import br.com.deveficiente.casadocodigov2.repository.LivroRepository;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -32,5 +36,13 @@ public class LivroService {
         Autor autor = autorRepository.getReferenceById(request.autor().getId());
         Categoria categoria = categoriaRepository.getReferenceById(request.categoria().getId());
         return livroRepository.save(new Livro(autor, categoria, request));
+    }
+    public List<LivroResponse> listar() {
+        LOG.info("Buscando autores");
+        return livroRepository
+                .findAll()
+                .stream()
+                .map(LivroResponse::new)
+                .toList();
     }
 }
