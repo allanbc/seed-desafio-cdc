@@ -3,7 +3,6 @@ package br.com.deveficiente.casadocodigov2.model.livro;
 import br.com.deveficiente.casadocodigov2.entity.Autor;
 import br.com.deveficiente.casadocodigov2.entity.Livro;
 import br.com.deveficiente.casadocodigov2.model.autor.AutorDetalheResponse;
-import br.com.deveficiente.casadocodigov2.model.autor.AutorResponse;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
