@@ -3,11 +3,13 @@ package br.com.deveficiente.casadocodigov2.entity;
 import br.com.deveficiente.casadocodigov2.model.livro.CadastroLivroRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
+@Setter
 @Entity
 public class Livro {
     @Id
@@ -19,7 +21,7 @@ public class Livro {
     private BigDecimal preco;
     private Integer numPagina;
     private String isbn;
-    private LocalDateTime dataPublicacao;
+    private LocalDate dataPublicacao;
     @ManyToOne(fetch = FetchType.LAZY)
     private Categoria categoria;
     @ManyToOne(fetch = FetchType.LAZY)
