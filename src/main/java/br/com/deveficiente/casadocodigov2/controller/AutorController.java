@@ -2,15 +2,12 @@ package br.com.deveficiente.casadocodigov2.controller;
 
 import br.com.deveficiente.casadocodigov2.model.autor.AutorResponse;
 import br.com.deveficiente.casadocodigov2.model.autor.CadastroAutorRequest;
-import br.com.deveficiente.casadocodigov2.model.livro.LivroResponse;
 import br.com.deveficiente.casadocodigov2.service.AutorService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
