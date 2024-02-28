@@ -12,7 +12,6 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class CategoriaService {
 
     private static final Logger LOG = getLogger(CategoriaService.class);
-
     private final CategoriaRepository categoriaRepository;
 
     public CategoriaService(CategoriaRepository categoriaRepository) {

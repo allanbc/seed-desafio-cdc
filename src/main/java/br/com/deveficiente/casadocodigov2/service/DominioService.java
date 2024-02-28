@@ -2,8 +2,6 @@ package br.com.deveficiente.casadocodigov2.service;
 
 import br.com.deveficiente.casadocodigov2.entity.Estado;
 import br.com.deveficiente.casadocodigov2.entity.Pais;
-import br.com.deveficiente.casadocodigov2.model.livro.LivroDetalheResponse;
-import br.com.deveficiente.casadocodigov2.model.livro.LivroResponse;
 import br.com.deveficiente.casadocodigov2.repository.EstadoRepository;
 import br.com.deveficiente.casadocodigov2.repository.PaisRepository;
 import org.slf4j.Logger;
