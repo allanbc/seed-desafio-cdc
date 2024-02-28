@@ -28,7 +28,8 @@ public class LivroController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<LivroResponse> create(@RequestBody @Valid CadastroLivroRequest request) {
         LOG.info("Cadastrando um livro");
-        return ResponseEntity.ok(new LivroResponse(livroService.create(request)));
+//        return ResponseEntity.ok(new LivroResponse(livroService.create(request)));
+        return ResponseEntity.ok(livroService.create(request));
     }
     @GetMapping
     public ResponseEntity<List<LivroResponse>> listar() {
