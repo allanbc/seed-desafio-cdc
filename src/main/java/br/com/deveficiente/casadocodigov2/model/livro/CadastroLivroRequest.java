@@ -12,7 +12,6 @@ import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public record CadastroLivroRequest(
     @NotBlank(message = "O título é obrigatório")
