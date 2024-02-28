@@ -11,7 +11,6 @@ import br.com.deveficiente.casadocodigov2.repository.AutorRepository;
 import br.com.deveficiente.casadocodigov2.repository.CategoriaRepository;
 import br.com.deveficiente.casadocodigov2.repository.LivroRepository;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,19 +21,22 @@ import static org.slf4j.LoggerFactory.getLogger;
 @Service
 public class LivroService {
     private static final Logger LOG = getLogger(LivroService.class);
-    @Autowired
-    private LivroRepository livroRepository;
-    @Autowired
-    private AutorRepository  autorRepository;
-    @Autowired
-    private CategoriaRepository categoriaRepository;
+    private final LivroRepository livroRepository;
+    private final AutorRepository  autorRepository;
+    private final CategoriaRepository categoriaRepository;
+
+    public LivroService(LivroRepository livroRepository, AutorRepository autorRepository, CategoriaRepository categoriaRepository) {
+        this.livroRepository = livroRepository;
+        this.autorRepository = autorRepository;
+        this.categoriaRepository = categoriaRepository;
+    }
 
     @Transactional
-    public Livro create(CadastroLivroRequest request) {
+    public LivroResponse create(CadastroLivroRequest request) {
         LOG.info("Cadastrando um livro: {}", request);
         Autor autor = autorRepository.getReferenceById(request.autor().getId());
         Categoria categoria = categoriaRepository.getReferenceById(request.categoria().getId());
-        return livroRepository.save(new Livro(autor, categoria, request));
+        return new LivroResponse(livroRepository.save(new Livro(autor, categoria, request)));
     }
     public List<LivroResponse> listar() {
         LOG.info("Buscando livros");
