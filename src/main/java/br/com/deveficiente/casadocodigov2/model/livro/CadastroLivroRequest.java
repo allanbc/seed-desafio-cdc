@@ -12,7 +12,6 @@ import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-
 public record CadastroLivroRequest(
     @NotBlank(message = "O título é obrigatório")
     @UniqueValue(domainClass = Livro.class, fieldName = "titulo", message = "Existe um livro cadastrado com esse título!")
@@ -36,9 +35,10 @@ public record CadastroLivroRequest(
     @Valid
     @NotNull
     @ExistsId(domainClass = Categoria.class, fieldName = "id")
-    Categoria categoria,
+    Long idCategoria,
     @Valid
     @NotNull
-    Autor autor){
+    @ExistsId(domainClass = Autor.class, fieldName = "id")
+    Long idAutor){
 }
 
