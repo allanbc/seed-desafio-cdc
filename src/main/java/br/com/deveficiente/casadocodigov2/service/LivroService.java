@@ -34,8 +34,8 @@ public class LivroService {
     @Transactional
     public LivroResponse create(CadastroLivroRequest request) {
         LOG.info("Cadastrando um livro: {}", request);
-        Autor autor = autorRepository.getReferenceById(request.autor().getId());
-        Categoria categoria = categoriaRepository.getReferenceById(request.categoria().getId());
+        Autor autor = autorRepository.getReferenceById(request.idAutor());
+        Categoria categoria = categoriaRepository.getReferenceById(request.idCategoria());
         return new LivroResponse(livroRepository.save(new Livro(autor, categoria, request)));
     }
     public List<LivroResponse> listar() {
