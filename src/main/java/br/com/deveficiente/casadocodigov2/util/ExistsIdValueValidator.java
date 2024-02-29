@@ -9,6 +9,7 @@ import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.util.Assert;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ExistsIdValueValidator implements ConstraintValidator<ExistsId, Object> {
 
@@ -29,9 +30,11 @@ public class ExistsIdValueValidator implements ConstraintValidator<ExistsId, Obj
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
+        if(Objects.isNull(value)) {
+            return true;
+        }
         Query query = manager.createQuery("select 1 from " +klass.getName() + " where " +domainAttribute+"=:value");
-        Long valueParam = ((Categoria) value).getId();
-        query.setParameter("value", valueParam);
+        query.setParameter("value", value);
         List<?> list = query.getResultList();
         Assert.isTrue(list.size() <=1, "Foi encontrado mais de um " + klass+ "com o atributo " +domainAttribute+"=+value");
         return !list.isEmpty();
