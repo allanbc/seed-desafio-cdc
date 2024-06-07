@@ -3,7 +3,7 @@ package br.com.deveficiente.casadocodigov2.model.compra;
 import br.com.deveficiente.casadocodigov2.entity.Compra;
 import br.com.deveficiente.casadocodigov2.entity.ItemPedido;
 import br.com.deveficiente.casadocodigov2.entity.Pedido;
-import br.com.deveficiente.casadocodigov2.repository.LivroRepository;
+import jakarta.persistence.EntityManager;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -37,9 +37,9 @@ public record NovoPedidoRequest(
                 this.itens = itens;
         }
 
-        public Function<Compra, Pedido> toRequestItemPedido2(LivroRepository livroRepository) {
+        public Function<Compra, Pedido> toRequestItemPedido2(EntityManager manager) {
                 Set<ItemPedido> itensCalculados = itens().stream()
-                        .map(item -> item.toItemPedido(livroRepository)).collect(Collectors.toSet());
+                        .map(item -> item.toItemPedido(manager)).collect(Collectors.toSet());
                 return (compra) -> {
                     Pedido pedido = new Pedido(compra, itensCalculados);
                     addItens(itensCalculados, pedido);

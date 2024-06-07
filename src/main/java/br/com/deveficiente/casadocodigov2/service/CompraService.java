@@ -18,13 +18,14 @@ import static org.slf4j.LoggerFactory.getLogger;
 @Service
 public class CompraService {
     private static final Logger LOG = getLogger(AutorService.class);
-    private final LivroRepository livroRepository;
+//    private final LivroRepository livroRepository;
     private final CupomRepository cupomRepository;
     @PersistenceContext
     private final EntityManager manager;
 
-    public CompraService(LivroRepository livroRepository, CupomRepository cupomRepository, EntityManager manager) {
-        this.livroRepository = livroRepository;
+    public CompraService(/*LivroRepository livroRepository,*/
+                         CupomRepository cupomRepository, EntityManager manager) {
+//        this.livroRepository = livroRepository;
         this.cupomRepository = cupomRepository;
         this.manager = manager;
     }
@@ -38,7 +39,7 @@ public class CompraService {
         // Criar um novo pedido
         var novoPedidoRequest = new NovoPedidoRequest(request.pedido().total(), request.pedido().itens());
 
-        var funcaoCriacaoPedido = novoPedidoRequest.toRequestItemPedido2(livroRepository);
+        var funcaoCriacaoPedido = novoPedidoRequest.toRequestItemPedido2(manager);
 
         // Associar o pedido à compra
         var compra = new Compra(request, (Estado) paisEstado.get("estado"), (Pais) paisEstado.get("pais"), Objects.requireNonNull(funcaoCriacaoPedido));

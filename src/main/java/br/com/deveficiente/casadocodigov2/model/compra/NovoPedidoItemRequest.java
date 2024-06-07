@@ -2,16 +2,10 @@ package br.com.deveficiente.casadocodigov2.model.compra;
 
 import br.com.deveficiente.casadocodigov2.entity.ItemPedido;
 import br.com.deveficiente.casadocodigov2.entity.Livro;
-import br.com.deveficiente.casadocodigov2.entity.Pedido;
-import br.com.deveficiente.casadocodigov2.repository.LivroRepository;
 import br.com.deveficiente.casadocodigov2.util.ExistsId;
+import jakarta.persistence.EntityManager;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public record NovoPedidoItemRequest(
         @NotNull
@@ -26,9 +20,10 @@ public record NovoPedidoItemRequest(
         this.quantidade = quantidade;
     }
 
-    public ItemPedido toItemPedido(LivroRepository livroRepository) {
-        Livro livro = livroRepository.findById(idLivro())
-                .orElseThrow(() -> new RuntimeException("Livro não encontrado"));
+    public ItemPedido toItemPedido(EntityManager manager) {
+        @NotNull Livro livro = manager.find(Livro.class, idLivro);
+        //livroRepository.findById(idLivro())
+                //.orElseThrow(() -> new RuntimeException("Livro não encontrado"));
         return new ItemPedido(quantidade, livro);
     }
 
