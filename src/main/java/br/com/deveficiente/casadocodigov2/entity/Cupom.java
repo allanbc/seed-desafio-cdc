@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
@@ -15,9 +16,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
-@Setter
 @Entity
-@Embeddable
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 public class Cupom {
@@ -33,23 +32,19 @@ public class Cupom {
     @Positive
     private BigDecimal percentualDesconto;
 
-    @Future
+    @FutureOrPresent
     @NotNull
     private LocalDate validade;
 
-    public Cupom(String codigo, BigDecimal percentualDesconto, LocalDate validade) {
+    public Cupom() {
+    }
+
+    public Cupom(@NotNull String codigo, @NotNull @Positive BigDecimal percentualDesconto, @FutureOrPresent @NotNull LocalDate validade) {
         Assert.isTrue(!validade.isBefore(LocalDate.now()),"A validade tem que ser no futuro");
         this.codigo = codigo;
         this.percentualDesconto = percentualDesconto;
         this.validade = validade;
     }
-
-    public Cupom(NovoCupomRequest request) {
-        this.codigo = request.codigo();
-        this.percentualDesconto = request.percentualDesconto();
-        this.validade = request.validade();
-    }
-
     public boolean isValid() {
         return LocalDate.now().isBefore(this.validade);
     }

@@ -1,6 +1,8 @@
 package br.com.deveficiente.casadocodigov2.util;
 
+import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
+import jakarta.validation.ReportAsSingleViolation;
 import org.hibernate.validator.constraints.CompositionType;
 import org.hibernate.validator.constraints.ConstraintComposition;
 import org.hibernate.validator.constraints.br.CNPJ;
@@ -17,8 +19,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @ConstraintComposition(CompositionType.OR)
 @CPF
 @CNPJ
+@Constraint(validatedBy = { })
+@ReportAsSingleViolation
 public @interface Documento {
-    String message() default "{br.com.deveficiente.casadocodigov2.util.Documento}";
+    String message() default "O documento informado não é válido";
     Class<?>[] groups() default { };
     Class<? extends Payload> [] payload() default { } ;
 }

@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({FIELD})
 @Retention(RUNTIME)
 public @interface ExistsId {
-    String message() default "O id informado é nulo ou inválido";
+    String message() default "O código informado é nulo ou inválido";
     Class<?> [] groups() default { };
     Class<? extends Payload> [] payload() default { };
     String fieldName();

@@ -11,7 +11,12 @@ import org.springframework.validation.Validator;
 @Component
 public class EstadoPertenceAPaisValidator implements Validator {
 
-    private EntityManager manager;
+    private final EntityManager manager;
+
+    public EstadoPertenceAPaisValidator(EntityManager manager) {
+        this.manager = manager;
+    }
+
     @Override
     public boolean supports(Class<?> clazz) {
         return NovaCompraRequest.class.isAssignableFrom(clazz);

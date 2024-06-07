@@ -1,15 +1,16 @@
 package br.com.deveficiente.casadocodigov2.entity;
 
 import br.com.deveficiente.casadocodigov2.model.compra.NovaCompraRequest;
-import br.com.deveficiente.casadocodigov2.model.compra.NovoPedidoRequest;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.util.Assert;
 
-import java.util.Optional;
 import java.util.function.Function;
 
 @Getter
@@ -36,6 +37,8 @@ public class Compra {
     private String cep;
     @OneToOne(mappedBy = "compra", cascade = CascadeType.PERSIST)
     private Pedido pedido;
+    @Embedded
+    private CupomAplicado cupomAplicado;
     public Compra(NovaCompraRequest request, Estado estado, Pais pais, Function<Compra, Pedido> funcaoCriacaoPedido) {
         this.email = request.email();
         this.nome = request.nome();
@@ -45,11 +48,21 @@ public class Compra {
         this.complemento = request.complemento();
         this.cidade = request.cidade();
         this.pais = pais;
-        Assert.notNull(pais, "Não é possível associar um estado enquanto o país for nulo.");
-        Assert.isTrue(estado.pertenceAPais(pais), "Este estado não é do país associado à compra");
         this.estado = estado;
         this.telefone = request.telefone();
         this.cep = request.cep();
         this.pedido = funcaoCriacaoPedido.apply(this);
+    }
+
+    public void setEstado(@NotNull @Valid Estado estado) {
+        Assert.notNull(pais,"Não é possível associar um estado enquanto o pais for nulo");
+        Assert.isTrue(estado.pertenceAPais(pais),"Este estado não é do país associado a compra");
+        this.estado = estado;
+    }
+
+    public void aplicaCupom(Cupom cupom) {
+        Assert.isTrue(cupom.isValid(),"Olha o cupom que está sendo aplicado não está mais válido");
+        Assert.isNull(cupomAplicado,"Olha você não pode trocar um cupom de uma compra");
+        this.cupomAplicado = new CupomAplicado(cupom);
     }
 }

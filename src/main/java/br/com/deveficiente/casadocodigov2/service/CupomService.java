@@ -23,6 +23,6 @@ public class CupomService {
     @Transactional
     public Cupom gerar(NovoCupomRequest request) {
         LOG.info("Cadastrando um cupom: {}", request);
-        return cupomRepository.save(new Cupom(request));
+        return cupomRepository.save(request.toRequestCupom());
     }
 }
