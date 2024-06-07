@@ -17,32 +17,24 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 @Service
 public class CompraService {
-
     private static final Logger LOG = getLogger(AutorService.class);
-//    private final CompraRepository compraRepository;
-//    private final PaisRepository paisRepository;
-//    private final EstadoRepository estadoRepository;
     private final LivroRepository livroRepository;
     private final CupomRepository cupomRepository;
-
     @PersistenceContext
-    private EntityManager manager;
+    private final EntityManager manager;
 
-    public CompraService(
-            /*CompraRepository compraRepository, PaisRepository paisRepository, EstadoRepository estadoRepository,*/
-                         LivroRepository livroRepository, CupomRepository cupomRepository) {
-//        this.compraRepository = compraRepository;
-//        this.paisRepository = paisRepository;
-//        this.estadoRepository = estadoRepository;
+    public CompraService(LivroRepository livroRepository, CupomRepository cupomRepository, EntityManager manager) {
         this.livroRepository = livroRepository;
         this.cupomRepository = cupomRepository;
+        this.manager = manager;
     }
 
     @Transactional
     public Compra compra(NovaCompraRequest request) {
         LOG.info("Cadastrando nova compra: {}", request);
-
+        //Associando país e estado a compra
         Map<String, Object> paisEstado = request.getEstadoPais(manager);
+
         // Criar um novo pedido
         var novoPedidoRequest = new NovoPedidoRequest(request.pedido().total(), request.pedido().itens());
 
@@ -58,6 +50,5 @@ public class CompraService {
         manager.persist(novaCompra);
 
         return novaCompra;
-                //compraRepository.save(novaCompra);
     }
 }

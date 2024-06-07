@@ -59,10 +59,8 @@ public record NovaCompraRequest(
 
         public Map<String, Object> getEstadoPais(EntityManager manager) {
                 Map<String, Object> resultado = new HashMap<>();
-//                Pais pais = paisRepository.getReferenceById(idPais);
                 Pais pais = manager.find(Pais.class, idPais);
                 if(idEstado != null) {
-//                        Estado estado = estadoRepository.getReferenceById(idEstado);
                         Estado estado = manager.find(Estado.class, idEstado);
                         resultado.put("pais", pais);
                         resultado.put("estado", estado);
