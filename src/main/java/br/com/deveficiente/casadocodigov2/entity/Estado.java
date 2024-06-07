@@ -49,4 +49,8 @@ public class Estado {
         return target;
 
     }
+
+    public boolean pertenceAPais(Pais pais) {
+        return true;
+    }
 }
