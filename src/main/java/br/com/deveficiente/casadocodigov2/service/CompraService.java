@@ -18,14 +18,11 @@ import static org.slf4j.LoggerFactory.getLogger;
 @Service
 public class CompraService {
     private static final Logger LOG = getLogger(AutorService.class);
-//    private final LivroRepository livroRepository;
     private final CupomRepository cupomRepository;
     @PersistenceContext
     private final EntityManager manager;
 
-    public CompraService(/*LivroRepository livroRepository,*/
-                         CupomRepository cupomRepository, EntityManager manager) {
-//        this.livroRepository = livroRepository;
+    public CompraService(CupomRepository cupomRepository, EntityManager manager) {
         this.cupomRepository = cupomRepository;
         this.manager = manager;
     }

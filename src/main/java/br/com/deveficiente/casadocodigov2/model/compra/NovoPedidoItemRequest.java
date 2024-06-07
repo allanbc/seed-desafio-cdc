@@ -22,8 +22,6 @@ public record NovoPedidoItemRequest(
 
     public ItemPedido toItemPedido(EntityManager manager) {
         @NotNull Livro livro = manager.find(Livro.class, idLivro);
-        //livroRepository.findById(idLivro())
-                //.orElseThrow(() -> new RuntimeException("Livro não encontrado"));
         return new ItemPedido(quantidade, livro);
     }
 
