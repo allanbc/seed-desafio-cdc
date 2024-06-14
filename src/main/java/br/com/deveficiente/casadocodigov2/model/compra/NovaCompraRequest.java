@@ -50,8 +50,9 @@ public record NovaCompraRequest(
         @ExistsId(domainClass = Cupom.class, fieldName = "codigo")
         String codigoCupom) {
 
-        public Compra aplicaCupom(Compra compra, NovaCompraRequest request, CupomRepository cupomRepository) {
-                if(StringUtils.hasText(request.codigoCupom())){
+        public Compra aplicaCupom(Compra compra, NovaCompraRequest request, CupomRepository cupomRepository, EntityManager manager) {
+
+                if(StringUtils.hasText(request.codigoCupom()) && !isRegistradaNoBancoDeDados(manager, compra)){
                         compra.aplicaCupom(cupomRepository.getByCodigo(request.codigoCupom()));
                 }
                 return compra;
@@ -66,5 +67,9 @@ public record NovaCompraRequest(
                         resultado.put("estado", estado);
                 }
                 return resultado;
+        }
+        public boolean isRegistradaNoBancoDeDados(EntityManager manager, Compra compra) {
+                Compra compraExiste = manager.find(Compra.class, compra.getId());
+                return compraExiste == null;
         }
 }

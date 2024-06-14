@@ -41,8 +41,8 @@ public class CompraService {
         // Associar o pedido à compra
         var compra = new Compra(request, (Estado) paisEstado.get("estado"), (Pais) paisEstado.get("pais"), Objects.requireNonNull(funcaoCriacaoPedido));
 
-        //Aplicar cupom
-        var novaCompra = request.aplicaCupom(compra, request, cupomRepository);
+        // Aplicar cupom
+        var novaCompra = request.aplicaCupom(compra, request, cupomRepository, manager);
 
         // Salvar a compra
         manager.persist(novaCompra);

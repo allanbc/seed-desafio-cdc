@@ -1,15 +1,12 @@
 package br.com.deveficiente.casadocodigov2.entity;
 
-import br.com.deveficiente.casadocodigov2.model.cupom.NovoCupomRequest;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
@@ -46,6 +43,6 @@ public class Cupom {
         this.validade = validade;
     }
     public boolean isValid() {
-        return LocalDate.now().isBefore(this.validade);
+        return LocalDate.now().compareTo(this.validade) <= 0;
     }
 }

@@ -61,8 +61,10 @@ public class Compra {
     }
 
     public void aplicaCupom(Cupom cupom) {
-        Assert.isTrue(cupom.isValid(),"Olha o cupom que está sendo aplicado não está mais válido");
-        Assert.isNull(cupomAplicado,"Olha você não pode trocar um cupom de uma compra");
+        Assert.isTrue(cupom.isValid(),"Olha, o cupom que está sendo aplicado não está mais válido");
+        Assert.isNull(cupomAplicado,"Olha, você não pode trocar um cupom de uma compra");
         this.cupomAplicado = new CupomAplicado(cupom);
     }
+
+
 }
