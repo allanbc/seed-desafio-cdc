@@ -2,6 +2,7 @@ package br.com.deveficiente.casadocodigov2.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,12 +20,16 @@ public class ItemPedido {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Pedido pedido;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Livro livro;
 
     private int quantidade;
+
+    public ItemPedido() {
+    }
 
     public ItemPedido(int quantidade, Livro livro) {
         this.quantidade = quantidade;

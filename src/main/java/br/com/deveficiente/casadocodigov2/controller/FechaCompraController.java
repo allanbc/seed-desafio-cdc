@@ -6,6 +6,7 @@ import br.com.deveficiente.casadocodigov2.service.CompraService;
 import br.com.deveficiente.casadocodigov2.util.CupomValidoValidator;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
@@ -38,4 +39,9 @@ public class FechaCompraController {
         return ResponseEntity.ok(new CompraResponse(service.compra(request)));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<CompraResponse> getById(@PathVariable Long id) {
+        var compra = this.service.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(new CompraResponse(compra));
+    }
 }

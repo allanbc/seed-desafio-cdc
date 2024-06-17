@@ -47,7 +47,6 @@ public record NovoPedidoRequest(
                     return pedido;
                 };
         }
-
     private void addItens(Set<ItemPedido> itensCalculados, Pedido pedido) {
         itensCalculados.forEach(it -> {
             it.setPedido(pedido);
@@ -56,6 +55,6 @@ public record NovoPedidoRequest(
 
         Assert.isTrue(pedido.totalIgual(total, pedido.calcularTotal()),
                 "Olha, o total("+total+") enviado não corresponde ao total real("+pedido.calcularTotal()
-                        .setScale(2, RoundingMode.CEILING)+").");
+                        .setScale(2, RoundingMode.UNNECESSARY)+").");
     }
 }

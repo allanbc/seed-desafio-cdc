@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public record NovaCompraRequest(
         @Email
@@ -52,7 +53,7 @@ public record NovaCompraRequest(
 
         public Compra aplicaCupom(Compra compra, NovaCompraRequest request, CupomRepository cupomRepository, EntityManager manager) {
 
-                if(StringUtils.hasText(request.codigoCupom()) && !isRegistradaNoBancoDeDados(manager, compra)){
+                if(StringUtils.hasText(request.codigoCupom())){
                         compra.aplicaCupom(cupomRepository.getByCodigo(request.codigoCupom()));
                 }
                 return compra;
@@ -71,5 +72,14 @@ public record NovaCompraRequest(
         public boolean isRegistradaNoBancoDeDados(EntityManager manager, Compra compra) {
                 Compra compraExiste = manager.find(Compra.class, compra.getId());
                 return compraExiste == null;
+        }
+
+        public Compra compraComCupom(Compra novaCompra) {
+                if(Objects.nonNull(novaCompra.getCupomAplicado())) {
+                        var divisor = novaCompra.getCupomAplicado().getPercentualDescontoMomento();
+                        novaCompra.getPedido().setTotalComDesconto(novaCompra.getPedido().calcularTotalComDesconto(divisor));
+                        return novaCompra;
+                }
+                return novaCompra;
         }
 }

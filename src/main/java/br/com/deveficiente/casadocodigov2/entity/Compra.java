@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.util.Assert;
@@ -39,6 +38,10 @@ public class Compra {
     private Pedido pedido;
     @Embedded
     private CupomAplicado cupomAplicado;
+
+    public Compra() {
+    }
+
     public Compra(NovaCompraRequest request, Estado estado, Pais pais, Function<Compra, Pedido> funcaoCriacaoPedido) {
         this.email = request.email();
         this.nome = request.nome();

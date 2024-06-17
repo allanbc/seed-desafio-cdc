@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Map;
 import java.util.Objects;
 
@@ -45,8 +47,12 @@ public class CompraService {
         var novaCompra = request.aplicaCupom(compra, request, cupomRepository, manager);
 
         // Salvar a compra
-        manager.persist(novaCompra);
+        manager.persist(request.compraComCupom(novaCompra));
 
         return novaCompra;
+    }
+
+    public Compra findById(Long id) {
+        return manager.find(Compra.class, id);
     }
 }
