@@ -39,6 +39,10 @@ dependencies {
 	testImplementation 'io.projectreactor:reactor-test'
 	testImplementation 'org.testcontainers:junit-jupiter'
 	testImplementation 'org.testcontainers:mysql'
+	testImplementation 'com.h2database:h2'
+
+
+	testImplementation 'org.junit.jupiter:junit-jupiter-params'
 
 }
 
