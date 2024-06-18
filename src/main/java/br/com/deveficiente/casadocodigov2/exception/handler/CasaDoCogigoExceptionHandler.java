@@ -85,7 +85,7 @@ public class CasaDoCogigoExceptionHandler {
 		return ResponseEntity.unprocessableEntity()
 				.contentType(MediaType.APPLICATION_JSON)
 				.body(ErrorResponse.builder()
-					.httpStatusCode(HttpStatus.BAD_REQUEST.value())
+					.httpStatusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
 					.errorCode("invalid_request")
 					.message(String.format("Campos inválidos: %s", fieldsMessage))
 					.fields(fields)
