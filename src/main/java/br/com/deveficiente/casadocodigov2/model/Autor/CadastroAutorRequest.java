@@ -15,4 +15,8 @@ public record CadastroAutorRequest(
         @Size(min = 3, max = 400)
         String descricao
     ) {
+
+        public boolean validaPayload() {
+                return nome != null && email != null && descricao != null;
+        }
 }

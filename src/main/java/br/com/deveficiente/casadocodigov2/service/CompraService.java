@@ -1,6 +1,7 @@
 package br.com.deveficiente.casadocodigov2.service;
 
 import br.com.deveficiente.casadocodigov2.entity.*;
+import br.com.deveficiente.casadocodigov2.exception.CompraNotFoundException;
 import br.com.deveficiente.casadocodigov2.model.compra.NovaCompraRequest;
 import br.com.deveficiente.casadocodigov2.model.compra.NovoPedidoRequest;
 import br.com.deveficiente.casadocodigov2.repository.*;
@@ -9,6 +10,7 @@ import jakarta.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -53,6 +55,11 @@ public class CompraService {
     }
 
     public Compra findById(Long id) {
-        return manager.find(Compra.class, id);
+        Assert.notNull(id, "Não foi informado ID na URL");
+        Compra compra = manager.find(Compra.class, id);
+        if (compra == null) {
+            throw new CompraNotFoundException(id);
+        }
+        return compra;
     }
 }

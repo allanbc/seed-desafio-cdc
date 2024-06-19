@@ -7,6 +7,7 @@ import br.com.deveficiente.casadocodigov2.model.autor.CadastroAutorRequest;
 import br.com.deveficiente.casadocodigov2.repository.AutorRepository;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -20,12 +21,13 @@ public class AutorService {
     }
 
     public Autor create(CadastroAutorRequest request) {
+        Assert.isTrue(request.validaPayload(), "Campos obrigatórios não foram informados!");
         LOG.info("Cadastrando autor: {}", request);
         return autorRepository.save(new Autor(request));
     }
 
     public AutorResponse getById(Long id) {
-
+        Assert.notNull(id, "Não foi informado ID na URL");
         LOG.info("Buscando autor por ID: {}", id);
         var autor = autorRepository.findById(id)
                 .map(AutorResponse::new)
