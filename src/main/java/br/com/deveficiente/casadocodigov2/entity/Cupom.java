@@ -37,7 +37,7 @@ public class Cupom {
     }
 
     public Cupom(@NotNull String codigo, @NotNull @Positive BigDecimal percentualDesconto, @FutureOrPresent @NotNull LocalDate validade) {
-        Assert.isTrue(!validade.isBefore(LocalDate.now()),"A validade tem que ser no futuro");
+        Assert.isTrue(validade.compareTo(LocalDate.now()) >= 0,"A validade tem que ser no futuro");
         this.codigo = codigo;
         this.percentualDesconto = percentualDesconto;
         this.validade = validade;
