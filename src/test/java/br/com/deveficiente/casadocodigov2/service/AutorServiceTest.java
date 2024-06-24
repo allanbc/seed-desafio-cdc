@@ -45,7 +45,6 @@ class AutorServiceTest {
         );
     }
 
-
 //    @Test
 //    @DisplayName("Dado os parâmetros para criação, deverá ser possível cadastrar um autor.")
 //    void testDeveCriarUmAutor() {
@@ -109,6 +108,10 @@ class AutorServiceTest {
             autor.setDescricao(autorForm.descricao());
             when(autorRepository.save(any(Autor.class))).thenReturn(autor);
         }
+        // Verificação do validaPayload antes de criar o autor
+        boolean isValid = autorForm.validaPayload();
+        assertTrue(isValid, "Payload deve ser válido");
+
         if (expectedExceptionMessage != null) {
             // Act and Assert
             DataIntegrityViolationException exception = assertThrows(DataIntegrityViolationException.class,
@@ -129,6 +132,28 @@ class AutorServiceTest {
 
         // Verificar se o método save foi chamado (ou não, dependendo do caso)
         verify(autorRepository).save(any(Autor.class));
+    }
+
+    private static Stream<Arguments> provideCadastroAutorRequests() {
+        return Stream.of(
+                Arguments.of("Allan", "allanbc@gmail.com", "Testando", true),
+                Arguments.of(null, "allanbc@gmail.com", "Testando", false),
+                Arguments.of("Allan", null, "Testando", false),
+                Arguments.of("Allan", "allanbc@gmail.com", null, false),
+                Arguments.of(null, null, null, false)
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("provideCadastroAutorRequests")
+    public void testValidaPayload(String nome, String email, String descricao, boolean expected) {
+        // Arrange
+        CadastroAutorRequest request = new CadastroAutorRequest(nome, email, descricao);
+
+        // Act
+        boolean result = request.validaPayload();
+
+        // Assert
+        assertEquals(expected, result);
     }
 
 }
