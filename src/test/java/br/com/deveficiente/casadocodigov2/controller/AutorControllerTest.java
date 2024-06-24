@@ -1,6 +1,8 @@
 package br.com.deveficiente.casadocodigov2.controller;
 
 import br.com.deveficiente.casadocodigov2.parameterized.JsonArgumentsProvider;
+import net.jqwik.api.Label;
+import net.jqwik.spring.JqwikSpringSupport;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -14,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,8 +23,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @ActiveProfiles("tests")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@SpringBootTest
+@JqwikSpringSupport
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class) //Coloca os testes na ordem de execução
+@SpringBootTest //Levanta todo o contexto inteiro do spring::controller, service e hibernate
 @AutoConfigureMockMvc
 class AutorControllerTest {
 
@@ -33,6 +35,7 @@ class AutorControllerTest {
     @Order(1)
     @ParameterizedTest
     @ArgumentsSource(JsonArgumentsProvider.class)
+    @Label("Fluxo de cadastro de um novo autor")
     void deveRetornar200AoCriarAutorComSucessoJsonArgumentsProvider(String payload, int expectedStatus) throws Exception {
         //ACT
         var response = mockMvc.perform(
