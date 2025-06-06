@@ -4,10 +4,10 @@ import br.com.deveficiente.casadocodigov2.entity.Autor;
 import br.com.deveficiente.casadocodigov2.model.autor.CadastroAutorRequest;
 import br.com.deveficiente.casadocodigov2.repository.AutorRepository;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -26,8 +26,11 @@ class AutorServiceTest {
     @Autowired
     private AutorService autorService;
 
-    @Autowired
+    @Mock
     private AutorRepository autorRepository;
+
+    AutorServiceTest() {
+    }
 
     private static Stream<Arguments> provideAutorRequests() {
         return Stream.of(
@@ -92,7 +95,7 @@ class AutorServiceTest {
     @ParameterizedTest
     @MethodSource("provideAutorRequests")
     @DisplayName("Dado os parâmetros para criação, deverá ser possível cadastrar um autor e validar o e-mail.")
-    public void testCreateAutor(CadastroAutorRequest autorForm, boolean emailExists, String expectedExceptionMessage) {
+    public void testCriaAutor(CadastroAutorRequest autorForm, boolean emailExists, String expectedExceptionMessage) {
         // Arrange
         AutorRepository autorRepository = mock(AutorRepository.class);
         AutorService autorService = new AutorService(autorRepository);
@@ -102,10 +105,11 @@ class AutorServiceTest {
             doThrow(new DataIntegrityViolationException(expectedExceptionMessage)).when(autorRepository).save(any());
         } else {
             // Simular a criação de um novo autor
-            Autor autor = new Autor();
-            autor.setNome(autorForm.nome());
-            autor.setEmail(autorForm.email());
-            autor.setDescricao(autorForm.descricao());
+            Autor autor = Autor.builder()
+                    .nome(autorForm.nome())
+                    .email(autorForm.email())
+                    .descricao(autorForm.descricao())
+                    .build();
             when(autorRepository.save(any(Autor.class))).thenReturn(autor);
         }
         // Verificação do validaPayload antes de criar o autor
