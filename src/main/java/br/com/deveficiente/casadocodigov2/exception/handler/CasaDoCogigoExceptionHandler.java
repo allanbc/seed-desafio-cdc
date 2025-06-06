@@ -64,7 +64,7 @@ public class CasaDoCogigoExceptionHandler {
 
 		messageLog(exception);
 
-		return ResponseEntity.unprocessableEntity()
+		return ResponseEntity.badRequest()
 				.contentType(MediaType.APPLICATION_JSON)
 				.body(ErrorResponse.builder()
 					.httpStatusCode(HttpStatus.BAD_REQUEST.value())
@@ -82,10 +82,10 @@ public class CasaDoCogigoExceptionHandler {
 
 		messageLog(exception);
 
-		return ResponseEntity.unprocessableEntity()
+		return ResponseEntity.badRequest()
 				.contentType(MediaType.APPLICATION_JSON)
 				.body(ErrorResponse.builder()
-					.httpStatusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
+					.httpStatusCode(HttpStatus.BAD_REQUEST.value())
 					.errorCode("invalid_request")
 					.message(String.format("Campos inválidos: %s", fieldsMessage))
 					.fields(fields)
