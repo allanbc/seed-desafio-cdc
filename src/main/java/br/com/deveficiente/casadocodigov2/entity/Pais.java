@@ -1,5 +1,6 @@
 package br.com.deveficiente.casadocodigov2.entity;
 
+import br.com.deveficiente.casadocodigov2.util.Generated;
 import br.com.deveficiente.casadocodigov2.util.UniqueValue;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -28,23 +29,54 @@ public class Pais {
     private String nome;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "pais")
+    @OneToMany(mappedBy = "pais", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Estado> estados = new ArrayList<>();
 
     public Pais() {
     }
 
+    public Pais(@NotBlank String nome) {
+        this.nome = nome;
+    }
+
     public static Pais toResponse(Pais source) {
+        if (source == null) {
+            return null;
+        }
         Pais target = new Pais();
         BeanUtils.copyProperties(source, target);
         return target;
     }
 
-    public Pais toRequest(@Valid Pais source) {
-        Pais target = new Pais();
-        BeanUtils.copyProperties(source, target);
-        target.setId(source.getId());
-        target.setNome(source.getNome());
-        return target;
+    @Override
+    public String toString() {
+        return "Pais [id=" + id + ", nome=" + nome + "]";
     }
+    @Override
+    @Generated(Generated.ECLIPSE)
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+        return result;
+    }
+
+    @Override
+    @Generated(Generated.ECLIPSE)
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Pais other = (Pais) obj;
+        if (nome == null) {
+            if (other.nome != null)
+                return false;
+        } else if (!nome.equals(other.nome))
+            return false;
+        return true;
+    }
+
 }

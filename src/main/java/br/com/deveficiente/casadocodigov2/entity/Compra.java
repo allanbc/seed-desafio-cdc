@@ -42,6 +42,19 @@ public class Compra {
     public Compra() {
     }
 
+    public Compra(String email, String nome, String sobrenome, String documento, String endereco, String complemento, Pais pais, String telefone, String cep, Function<Compra, Pedido> funcaoCriacaoPedido) {
+        this.email = email;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.documento = documento;
+        this.endereco = endereco;
+        this.complemento = complemento;
+        this.pais = pais;
+        this.telefone = telefone;
+        this.cep = cep;
+        this.pedido = funcaoCriacaoPedido.apply(this);
+    }
+
     public Compra(NovaCompraRequest request, Estado estado, Pais pais, Function<Compra, Pedido> funcaoCriacaoPedido) {
         this.email = request.email();
         this.nome = request.nome();

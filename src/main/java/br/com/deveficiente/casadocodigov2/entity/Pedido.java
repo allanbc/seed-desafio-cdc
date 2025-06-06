@@ -1,6 +1,9 @@
 package br.com.deveficiente.casadocodigov2.entity;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -70,5 +73,10 @@ public class Pedido {
         BigDecimal totalComDesconto = calcularTotal();
         BigDecimal desconto = totalComDesconto.multiply(percentualDesconto).divide(new BigDecimal("100").setScale(2, RoundingMode.UNNECESSARY));
         return totalComDesconto.subtract(desconto);
+    }
+
+    public boolean totalIgual(BigDecimal valor) {
+        BigDecimal totalPedido = this.calcularTotal().setScale(2, RoundingMode.HALF_UP);
+        return totalPedido.compareTo(valor.setScale(2, RoundingMode.HALF_UP)) == 0;
     }
 }

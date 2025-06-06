@@ -2,18 +2,15 @@ package br.com.deveficiente.casadocodigov2.entity;
 
 import br.com.deveficiente.casadocodigov2.util.UniqueValue;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -50,7 +47,12 @@ public class Estado {
 
     }
 
+    public Estado(@NotBlank String nome, @NotNull @Valid Pais pais) {
+        this.nome = nome;
+        this.pais = pais;
+    }
+
     public boolean pertenceAPais(Pais pais) {
-        return true;
+        return this.pais.equals(pais);
     }
 }

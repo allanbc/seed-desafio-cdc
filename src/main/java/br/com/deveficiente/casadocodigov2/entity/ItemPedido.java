@@ -31,7 +31,7 @@ public class ItemPedido {
     public ItemPedido() {
     }
 
-    public ItemPedido(int quantidade, Livro livro) {
+    public ItemPedido(Livro livro, int quantidade) {
         this.quantidade = quantidade;
         this.livro = livro;
     }
