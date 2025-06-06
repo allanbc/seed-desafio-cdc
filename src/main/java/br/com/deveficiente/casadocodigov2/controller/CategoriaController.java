@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -27,6 +30,11 @@ public class CategoriaController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CategoriaResponse> create(@RequestBody @Valid CadastroCategoriaRequest request) {
         LOG.info("Cadastrando uma categoria");
-        return ResponseEntity.ok(new CategoriaResponse(categoriaService.create(request)));
+        var categoria = categoriaService.create(request);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(categoria.getId())
+                .toUri();
+        return ResponseEntity.created(location).body(new CategoriaResponse(categoria));
     }
 }

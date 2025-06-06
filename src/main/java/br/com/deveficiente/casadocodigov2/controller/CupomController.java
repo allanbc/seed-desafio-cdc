@@ -1,6 +1,5 @@
 package br.com.deveficiente.casadocodigov2.controller;
 
-import br.com.deveficiente.casadocodigov2.model.compra.CompraResponse;
 import br.com.deveficiente.casadocodigov2.model.cupom.CupomResponse;
 import br.com.deveficiente.casadocodigov2.model.cupom.NovoCupomRequest;
 import br.com.deveficiente.casadocodigov2.service.CupomService;

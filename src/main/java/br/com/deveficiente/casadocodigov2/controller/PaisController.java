@@ -1,7 +1,6 @@
 package br.com.deveficiente.casadocodigov2.controller;
 
 import br.com.deveficiente.casadocodigov2.entity.Pais;
-import br.com.deveficiente.casadocodigov2.service.EstadoService;
 import br.com.deveficiente.casadocodigov2.service.PaisService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
