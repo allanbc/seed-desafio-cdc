@@ -33,7 +33,7 @@ public class EstadoPertenceAPaisValidator implements Validator {
         if(request.idEstado() != null) {
             Pais pais = manager.find(Pais.class, request.idPais());
             Estado estado = manager.find(Estado.class, request.idEstado());
-            if(estado.pertenceAPais(pais)) {
+            if(!estado.pertenceAPais(pais)) {
                 errors.rejectValue("idEstado", null, "Este estado não é do país selecionado");
             }
         }

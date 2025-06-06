@@ -2,7 +2,6 @@ package br.com.deveficiente.casadocodigov2.util;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import org.hibernate.validator.internal.constraintvalidators.hv.UniqueElementsValidator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

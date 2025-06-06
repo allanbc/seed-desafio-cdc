@@ -1,6 +1,5 @@
 package br.com.deveficiente.casadocodigov2.util;
 
-import br.com.deveficiente.casadocodigov2.entity.Categoria;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
