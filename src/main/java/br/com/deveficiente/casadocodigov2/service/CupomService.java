@@ -1,6 +1,5 @@
 package br.com.deveficiente.casadocodigov2.service;
 
-import br.com.deveficiente.casadocodigov2.controller.CupomController;
 import br.com.deveficiente.casadocodigov2.entity.Cupom;
 import br.com.deveficiente.casadocodigov2.model.cupom.NovoCupomRequest;
 import br.com.deveficiente.casadocodigov2.repository.CupomRepository;

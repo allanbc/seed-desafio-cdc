@@ -1,7 +1,6 @@
 package br.com.deveficiente.casadocodigov2.service;
 
 import br.com.deveficiente.casadocodigov2.entity.Pais;
-import br.com.deveficiente.casadocodigov2.repository.EstadoRepository;
 import br.com.deveficiente.casadocodigov2.repository.PaisRepository;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,7 @@ public class PaisService {
 
     public Pais createPais(Pais request) {
         LOG.info("Service que cadastra um pais");
-        return paisRepository.save(new Pais().toRequest(request));
+        return paisRepository.save(request);
     }
 
     public List<Pais> getPaises() {

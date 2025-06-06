@@ -1,10 +1,12 @@
 package br.com.deveficiente.casadocodigov2.service;
 
-import br.com.deveficiente.casadocodigov2.entity.*;
+import br.com.deveficiente.casadocodigov2.entity.Compra;
+import br.com.deveficiente.casadocodigov2.entity.Estado;
+import br.com.deveficiente.casadocodigov2.entity.Pais;
 import br.com.deveficiente.casadocodigov2.exception.CompraNotFoundException;
 import br.com.deveficiente.casadocodigov2.model.compra.NovaCompraRequest;
 import br.com.deveficiente.casadocodigov2.model.compra.NovoPedidoRequest;
-import br.com.deveficiente.casadocodigov2.repository.*;
+import br.com.deveficiente.casadocodigov2.repository.CupomRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.slf4j.Logger;
@@ -12,8 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Map;
 import java.util.Objects;
 

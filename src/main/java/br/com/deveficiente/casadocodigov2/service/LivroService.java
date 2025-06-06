@@ -4,53 +4,54 @@ import br.com.deveficiente.casadocodigov2.entity.Autor;
 import br.com.deveficiente.casadocodigov2.entity.Categoria;
 import br.com.deveficiente.casadocodigov2.entity.Livro;
 import br.com.deveficiente.casadocodigov2.exception.LivroNotFoundException;
-import br.com.deveficiente.casadocodigov2.model.livro.CadastroLivroRequest;
+import br.com.deveficiente.casadocodigov2.model.livro.NovoLivroRequest;
 import br.com.deveficiente.casadocodigov2.model.livro.LivroDetalheResponse;
 import br.com.deveficiente.casadocodigov2.model.livro.LivroResponse;
-import br.com.deveficiente.casadocodigov2.repository.AutorRepository;
-import br.com.deveficiente.casadocodigov2.repository.CategoriaRepository;
-import br.com.deveficiente.casadocodigov2.repository.LivroRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Optional;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
 @Service
 public class LivroService {
     private static final Logger LOG = getLogger(LivroService.class);
-    private final LivroRepository livroRepository;
-    private final AutorRepository  autorRepository;
-    private final CategoriaRepository categoriaRepository;
 
-    public LivroService(LivroRepository livroRepository, AutorRepository autorRepository, CategoriaRepository categoriaRepository) {
-        this.livroRepository = livroRepository;
-        this.autorRepository = autorRepository;
-        this.categoriaRepository = categoriaRepository;
+    @PersistenceContext
+    private final EntityManager manager;
+
+    public LivroService(EntityManager manager) {
+        this.manager = manager;
     }
 
     @Transactional
-    public LivroResponse create(CadastroLivroRequest request) {
+    public Livro create(NovoLivroRequest request) {
         LOG.info("Cadastrando um livro: {}", request);
-        Autor autor = autorRepository.getReferenceById(request.idAutor());
-        Categoria categoria = categoriaRepository.getReferenceById(request.idCategoria());
-        return new LivroResponse(livroRepository.save(new Livro(autor, categoria, request)));
-    }
-    public List<LivroResponse> listar() {
-        LOG.info("Buscando livros");
-        return livroRepository
-                .findAll()
-                .stream()
-                .map(LivroResponse::new)
-                .toList();
-    }
 
+        Livro novoLivro = request.toModelLivro(
+                id -> manager.find(Autor.class, request.idAutor()),
+                id -> manager.find(Categoria.class, request.idCategoria())
+        );
+
+        manager.persist(novoLivro);
+
+        return novoLivro;
+    }
+//    public List<LivroResponse> listar() {
+//        LOG.info("Buscando livros");
+//        return livroRepository
+//                .findAll()
+//                .stream()
+//                .map(LivroResponse::new)
+//                .toList();
+//    }
     public LivroDetalheResponse getByProdutoDetalhe(Long id) {
         LOG.info("Buscando detalhe de um livro");
-        return livroRepository
-                .findById(id)
+        return Optional.ofNullable(manager.find(Livro.class, id))
                 .map(LivroDetalheResponse::new)
                 .orElseThrow(() -> {
                     LOG.warn("Erro ao detalhar livro");
