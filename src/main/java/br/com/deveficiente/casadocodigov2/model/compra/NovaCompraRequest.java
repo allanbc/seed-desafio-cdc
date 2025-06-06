@@ -51,35 +51,36 @@ public record NovaCompraRequest(
         @ExistsId(domainClass = Cupom.class, fieldName = "codigo")
         String codigoCupom) {
 
-        public Compra aplicaCupom(Compra compra, NovaCompraRequest request, CupomRepository cupomRepository, EntityManager manager) {
+                public Compra aplicaCupom(Compra compra, NovaCompraRequest request, CupomRepository cupomRepository, EntityManager manager) {
 
-                if(StringUtils.hasText(request.codigoCupom())){
-                        compra.aplicaCupom(cupomRepository.getByCodigo(request.codigoCupom()));
+                        if(StringUtils.hasText(request.codigoCupom())){
+                                compra.aplicaCupom(cupomRepository.getByCodigo(request.codigoCupom()));
+                        }
+                        return compra;
                 }
-                return compra;
-        }
 
-        public Map<String, Object> getEstadoPais(EntityManager manager) {
-                Map<String, Object> resultado = new HashMap<>();
-                Pais pais = manager.find(Pais.class, idPais);
-                if(idEstado != null) {
-                        Estado estado = manager.find(Estado.class, idEstado);
-                        resultado.put("pais", pais);
-                        resultado.put("estado", estado);
+                public boolean isRegistradaNoBancoDeDados(EntityManager manager, Compra compra) {
+                        Compra compraExiste = manager.find(Compra.class, compra.getId());
+                        return compraExiste == null;
                 }
-                return resultado;
-        }
-        public boolean isRegistradaNoBancoDeDados(EntityManager manager, Compra compra) {
-                Compra compraExiste = manager.find(Compra.class, compra.getId());
-                return compraExiste == null;
-        }
 
-        public Compra compraComCupom(Compra novaCompra) {
-                if(Objects.nonNull(novaCompra.getCupomAplicado())) {
-                        var divisor = novaCompra.getCupomAplicado().getPercentualDescontoMomento();
-                        novaCompra.getPedido().setTotalComDesconto(novaCompra.getPedido().calcularTotalComDesconto(divisor));
+                public Compra compraComCupom(Compra novaCompra) {
+                        if(Objects.nonNull(novaCompra.getCupomAplicado())) {
+                                var divisor = novaCompra.getCupomAplicado().getPercentualDescontoMomento();
+                                novaCompra.getPedido().setTotalComDesconto(novaCompra.getPedido().calcularTotalComDesconto(divisor));
+                                return novaCompra;
+                        }
                         return novaCompra;
                 }
-                return novaCompra;
-        }
+
+                public Map<String, Object> getEstadoPais(EntityManager manager) {
+                        Map<String, Object> resultado = new HashMap<>();
+                        Pais pais = manager.find(Pais.class, idPais);
+                        if(idEstado != null) {
+                                Estado estado = manager.find(Estado.class, idEstado);
+                                resultado.put("pais", pais);
+                                resultado.put("estado", estado);
+                        }
+                        return resultado;
+                }
 }

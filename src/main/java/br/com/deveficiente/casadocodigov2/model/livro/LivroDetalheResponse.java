@@ -30,7 +30,7 @@ public record LivroDetalheResponse(
         livro.getResumo(),
         livro.getSumario(),
         livro.getPreco(),
-        livro.getNumPagina(),
+        livro.getNumPaginas(),
         livro.getIsbn(),
         livro.getDataPublicacao(),
         Optional.ofNullable(livro.getAutor()).map(AutorDetalheResponse::autorDetalheResponse).orElse(null));
