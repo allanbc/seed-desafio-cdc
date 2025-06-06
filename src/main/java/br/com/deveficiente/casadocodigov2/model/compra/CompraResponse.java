@@ -3,8 +3,6 @@ package br.com.deveficiente.casadocodigov2.model.compra;
 import br.com.deveficiente.casadocodigov2.entity.Compra;
 import br.com.deveficiente.casadocodigov2.entity.CupomAplicado;
 import br.com.deveficiente.casadocodigov2.entity.Pedido;
-import br.com.deveficiente.casadocodigov2.model.cupom.CupomAplicadoResponse;
-import br.com.deveficiente.casadocodigov2.model.pedido.PedidoResponse;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)

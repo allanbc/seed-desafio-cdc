@@ -1,6 +1,5 @@
 package br.com.deveficiente.casadocodigov2.model.cupom;
 
-import br.com.deveficiente.casadocodigov2.entity.Compra;
 import br.com.deveficiente.casadocodigov2.entity.Cupom;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

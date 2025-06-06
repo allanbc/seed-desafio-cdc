@@ -22,7 +22,7 @@ public record NovoPedidoItemRequest(
 
     public ItemPedido toItemPedido(EntityManager manager) {
         @NotNull Livro livro = manager.find(Livro.class, idLivro);
-        return new ItemPedido(quantidade, livro);
+        return new ItemPedido(livro, quantidade);
     }
 
 }
